@@ -1,0 +1,437 @@
+/* ===============================
+   GLOBAL STYLES
+================================ */
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #1f4037, #99f2c8);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    color: white;
+}
+
+h2, h3, h4 {
+    margin-top: 0;
+}
+
+/* ===============================
+   LOGIN & REGISTER PAGE
+================================ */
+
+body.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    color: black;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #1f4037;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s ease;
+}
+
+button:hover {
+    background: #16332b;
+}
+
+.checkbox-group {
+    text-align: left;
+    margin: 10px 0;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    cursor: pointer;
+}
+
+.checkbox-input {
+    width: auto !important;
+    margin-right: 10px;
+    cursor: pointer;
+    accent-color: #1f4037;
+}
+
+/* ===============================
+   NAVBAR
+================================ */
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 40px;
+    background: linear-gradient(135deg, #232f3e 0%, #1a1f28 100%);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+.website-name {
+    font-size: 34px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    color: white;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.navbar-link {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.navbar-link:hover {
+    color: #ff9900;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logout-btn {
+    background-color: #ff9900;
+    color: black;
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #ffb84d;
+}
+
+/* ===============================
+   DASHBOARD WRAPPER
+================================ */
+
+.dashboard-wrapper {
+    padding: 60px 30px;
+    display: flex;
+    justify-content: center;
+}
+
+/* ===============================
+   DATA INGESTION SECTION
+================================ */
+
+.ingestion-section {
+    width: 100%;
+    max-width: 900px;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+}
+
+.ingestion-section h2 {
+    margin-bottom: 30px;
+}
+
+/* ===============================
+   FORM
+================================ */
+
+.ingestion-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.ingestion-form label {
+    font-weight: bold;
+}
+
+.ingestion-form input,
+.ingestion-form select {
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    font-size: 15px;
+}
+
+/* ===============================
+   FETCH BUTTON
+================================ */
+
+.fetch-btn {
+    padding: 14px;
+    margin-top: 10px;
+    background: linear-gradient(135deg, #232f3e 0%, #1a1f28 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.fetch-btn:hover {
+    background: linear-gradient(135deg, #ff9900 0%, #ffb84d 100%);
+    color: black;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(255, 153, 0, 0.4);
+}
+
+/* ===============================
+   RESULTS SECTION
+================================ */
+
+.results-box {
+    margin-top: 40px;
+    padding: 25px;
+    border-radius: 12px;
+    background: rgba(252, 252, 252, 255);
+    min-height: 120px;
+    font-size: 14px;
+    color: rgb(17, 17, 17);
+}
+
+/* ===============================
+   DETAIL VIEW
+================================ */
+
+.detail-view {
+    animation: fadeIn 0.3s ease-in-out;
+    color: black !important;
+}
+
+.detail-view h3,
+.detail-view h4,
+.detail-view h2,
+.detail-view p,
+.detail-view strong,
+.detail-view a,
+.detail-view span {
+    color: black !important;
+}
+
+.detail-view code,
+.detail-view pre {
+    color: black !important;
+    background: white !important;
+}
+
+.detail-view table,
+.detail-view td,
+.detail-view th {
+    color: black !important;
+}
+
+.detail-content {
+    margin-top: 20px;
+    color: black !important;
+}
+
+.detail-content p {
+    color: black !important;
+}
+
+.detail-content table {
+    color: black !important;
+}
+
+.detail-content th,
+.detail-content td {
+    color: black !important;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.detail-header {
+    animation: slideInDown 0.4s ease-out;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.action-btn {
+    background: linear-gradient(135deg, #ff9900 0%, #ffb84d 100%);
+    color: #232f3e;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.action-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(255, 153, 0, 0.4);
+}
+
+/* ===============================
+   DATASET INFO GRID
+================================ */
+
+.dataset-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.info-card {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,153,0,0.3);
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.info-card:hover {
+    background: rgba(255,153,0,0.1);
+    border-color: #ff9900;
+    transform: translateY(-3px);
+}
+
+.info-card h4 {
+    margin: 0 0 10px 0;
+    color: #ff9900;
+    font-size: 14px;
+}
+
+.info-card p {
+    margin: 0;
+    font-size: 15px;
+    color: #fff;
+}
+
+.info-card code {
+    background: white !important;
+    color: black !important;
+    padding: 5px !important;
+    border-radius: 3px !important;
+}
+
+/* ===============================
+   CARDS (Reusable)
+================================ */
+
+.card {
+    background: rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+/* ===============================
+   RESPONSIVE DESIGN
+================================ */
+
+@media (max-width: 768px) {
+
+    .navbar {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .nav-left {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .dashboard-wrapper {
+        padding: 30px 15px;
+    }
+
+    .ingestion-section {
+        padding: 25px;
+    }
+}
+.dashboard-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+}
+
+.dashboard-left {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.dashboard-right {
+    width: 70%;
+}
+
+.scroll-box {
+    max-height: 200px;
+    overflow-y: auto;
+    background: #f5f5f5;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.enhance-btn {
+    margin-top: 10px;
+    background: #ff9900;
+    border: none;
+    padding: 8px 12px;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}

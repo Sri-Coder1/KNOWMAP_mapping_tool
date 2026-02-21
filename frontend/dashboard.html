@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>KnowMap Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar large-navbar">
+    <div class="nav-left">
+        <div class="website-name">KNOWMAP</div>
+        <button class="navbar-link"
+                onclick="window.location.href='dataset-selection.html'">
+            Dataset Selection
+        </button>
+    </div>
+
+    <div class="nav-right">
+        <button onclick="window.location.href='profile.html'"
+                class="navbar-link">Profile</button>
+        <button onclick="logout()" class="logout-btn">Logout</button>
+    </div>
+</nav>
+
+<div class="dashboard-container">
+
+    <!-- LEFT PANEL -->
+    <div class="dashboard-left">
+
+        <!-- Saved Graphs -->
+        <div class="card">
+            <h3>📂 Saved Knowledge Graphs</h3>
+
+            <select id="savedGraphsDropdown">
+                <option value="">-- Select Graph --</option>
+            </select>
+
+            <button id="loadGraphsBtn">Load My Graphs</button>
+        </div>
+
+        <!-- Extracted Entities -->
+        <div class="card">
+            <h3>🧠 Extracted Entities</h3>
+            <div id="entitiesBox" class="scroll-box"></div>
+        </div>
+
+        <!-- Cross Domain Links -->
+        <div class="card">
+            <h3>🔗 Cross-Domain Links</h3>
+            <div id="crossLinksBox" class="scroll-box"></div>
+
+            <button id="enhanceBtn" class="enhance-btn">
+                🔍 Fetch Cross-Domain Knowledge
+            </button>
+        </div>
+
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="dashboard-right">
+        <div class="card">
+            <h3>🌐 Knowledge Graph</h3>
+            <canvas id="graphCanvas" width="900" height="600"></canvas>
+        </div>
+    </div>
+
+</div>
+
+<script src="dashboard.js"></script>
+</body>
+</html>

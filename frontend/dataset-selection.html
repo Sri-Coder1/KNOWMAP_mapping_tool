@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>KnowMap - Dataset Selection</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .dataset-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .dataset-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 30px 20px;
+        }
+
+        .dataset-card {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .dataset-card h3 {
+            color: black;
+            font-weight: 600;
+        }
+
+        .dataset-card:hover {
+            border-color: #ff9900;
+            transform: translateY(-5px);
+        }
+
+        .dataset-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .ingestion-section {
+            padding: 30px;
+        }
+
+        .results-box {
+            margin-top: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .fetch-btn {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar large-navbar">
+    <div class="nav-left">
+        <div class="website-name">KNOWMAP</div>
+        <button onclick="window.history.back()" class="navbar-link">← Back</button>
+    </div>
+    <div class="nav-right">
+        <button onclick="logout()" class="logout-btn">Logout</button>
+    </div>
+</nav>
+
+<div class="dataset-container">
+
+    <h2 style="text-align:center;">Select a Data Source</h2>
+
+    <div class="dataset-grid">
+
+        <div class="dataset-card" onclick="selectDataset('wikipedia')">
+            <div class="dataset-icon">🌐</div>
+            <h3>Wikipedia</h3>
+        </div>
+
+        <div class="dataset-card" onclick="selectDataset('arxiv')">
+            <div class="dataset-icon">📚</div>
+            <h3>ArXiv Research Papers</h3>
+        </div>
+
+        <div class="dataset-card" onclick="selectDataset('kaggle')">
+            <div class="dataset-icon">📊</div>
+            <h3>Kaggle Datasets</h3>
+        </div>
+
+        <div class="dataset-card" onclick="selectDataset('upload')">
+            <div class="dataset-icon">⬆️</div>
+            <h3>Upload File</h3>
+        </div>
+
+    </div>
+
+    <div class="ingestion-section" id="ingestionSection" style="display:none;">
+
+        <div id="searchForm">
+            <input type="text" id="topicInput" placeholder="Enter topic...">
+            <button id="fetchBtn" class="fetch-btn">Fetch & Analyze</button>
+        </div>
+
+        <div id="uploadForm" style="display:none;">
+            <input type="file" id="fileInput">
+            <button id="uploadBtn" class="fetch-btn">Upload & Analyze</button>
+        </div>
+
+        <div id="results" class="results-box"></div>
+
+    </div>
+
+</div>
+
+<script>
+
+const token = localStorage.getItem("token");
+
+if (!token) {
+    window.location.href = "login.html";
+}
+
+let selectedDataset = null;
+let latestGraphId = null;
+
+function selectDataset(source) {
+
+    selectedDataset = source;
+
+    document.getElementById("ingestionSection").style.display = "block";
+
+    if (source === "upload") {
+        document.getElementById("searchForm").style.display = "none";
+        document.getElementById("uploadForm").style.display = "block";
+    } else {
+        document.getElementById("searchForm").style.display = "block";
+        document.getElementById("uploadForm").style.display = "none";
+    }
+}
+
+document.getElementById("fetchBtn").addEventListener("click", async () => {
+
+    const topic = document.getElementById("topicInput").value.trim();
+    const resultsBox = document.getElementById("results");
+
+    if (!selectedDataset || !topic) {
+        alert("Select source and enter topic.");
+        return;
+    }
+
+    try {
+
+        resultsBox.innerHTML = "⏳ Fetching external data...";
+
+        const fetchResponse = await fetch("/fetch-external", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                source: selectedDataset,
+                topic: topic
+            })
+        });
+
+        if (!fetchResponse.ok) {
+            resultsBox.innerHTML = "❌ Failed to fetch external data.";
+            return;
+        }
+
+        const fetchData = await fetchResponse.json();
+
+        if (!fetchData.content) {
+            resultsBox.innerHTML = "❌ No content found.";
+            return;
+        }
+
+        resultsBox.innerHTML = "🧠 Processing knowledge graph...";
+
+        const processResponse = await fetch("/process-data", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
+            },
+            body: JSON.stringify({
+                source: selectedDataset,
+                topic: topic,
+                content: fetchData.content
+            })
+        });
+
+        if (!processResponse.ok) {
+            resultsBox.innerHTML = "❌ NLP Processing failed.";
+            return;
+        }
+
+        const processedData = await processResponse.json();
+
+        latestGraphId = processedData.graph_id;
+
+        resultsBox.innerHTML = `
+            <h4>✓ Knowledge Graph Created</h4>
+            <p><strong>Entities:</strong> ${processedData.entities.length}</p>
+            <p><strong>Cross-Domain Links:</strong> ${processedData.cross_domain_links.length}</p>
+            <button onclick="openDashboard()">📂 Open in Dashboard</button>
+        `;
+
+    } catch (error) {
+        resultsBox.innerHTML = "❌ Error: " + error.message;
+    }
+
+});
+
+document.getElementById("uploadBtn").addEventListener("click", async () => {
+
+    const fileInput = document.getElementById("fileInput");
+    const resultsBox = document.getElementById("results");
+
+    if (!fileInput.files[0]) {
+        alert("Select file first.");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", fileInput.files[0]);
+
+    try {
+
+        resultsBox.innerHTML = "⏳ Uploading file...";
+
+        const uploadResponse = await fetch("/upload-file", {
+            method: "POST",
+            body: formData
+        });
+
+        const uploadData = await uploadResponse.json();
+
+        resultsBox.innerHTML = "🧠 Processing file...";
+
+        const processResponse = await fetch("/process-data", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
+            },
+            body: JSON.stringify({
+                source: "upload",
+                topic: fileInput.files[0].name,
+                content: uploadData.content
+            })
+        });
+
+        const processedData = await processResponse.json();
+
+        latestGraphId = processedData.graph_id;
+
+        resultsBox.innerHTML = `
+            <h4>✓ Knowledge Graph Created from File</h4>
+            <p><strong>Entities:</strong> ${processedData.entities.length}</p>
+            <p><strong>Cross-Domain Links:</strong> ${processedData.cross_domain_links.length}</p>
+            <button onclick="openDashboard()">📂 Open in Dashboard</button>
+        `;
+
+    } catch (error) {
+        resultsBox.innerHTML = "❌ Error: " + error.message;
+    }
+
+});
+
+function openDashboard() {
+    if (latestGraphId) {
+        sessionStorage.setItem("graphId", latestGraphId);
+        window.location.href = "dashboard.html";
+    }
+}
+
+function logout() {
+    localStorage.removeItem("token");
+    window.location.href = "login.html";
+}
+
+</script>
+
+</body>
+</html>
